@@ -23,21 +23,28 @@ public class Main {
 
         try {
 
+
             //  Leer variables de entorno
             String dbUrl = System.getenv("BD_HOST");
             String dbUser = System.getenv("BD_USERNAME");
             String dbPass = System.getenv("BD_PASSWORD");
             String dbName = System.getenv("BD_NAME");
 
+            String startDate="2021-01-01";
+            String endDate="2022-12-31";
+
             String smtpUser = "sdc.giancarlosrojas@gmail.com";
             String smtpPass = "ormd pbrh cckz kfkx";
             String emailTo = System.getenv("EMAIL_TO");
 
+
+
             //  1. Consultar la base de datos
             Connection conn = DriverManager.getConnection("jdbc:sqlserver://" + dbUrl + ";databaseName=" + dbName + ";encrypt=false", dbUser, dbPass);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM dbo.employees WHERE admission_date >= '2021-01-01' AND admission_date <= '2022-12-31'");
-
+            //ResultSet rs = stmt.executeQuery("SELECT * FROM dbo.employees WHERE admission_date >= "+fecha_inicio+" AND admission_date <= "+fecha_fin);
+            String query = "SELECT * " +"FROM dbo.employees " +"WHERE admission_date >= '" + startDate + "' AND admission_date <= '" + endDate + "'";
+            ResultSet rs = stmt.executeQuery(query);
             //  2. Crear archivo Excel
             File excelFile = new File("empleados.xlsx");
             Workbook workbook = new XSSFWorkbook();
